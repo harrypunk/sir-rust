@@ -1,5 +1,5 @@
 pub struct Gettree;
-pub mod gettree {
+pub mod query {
     #![allow(dead_code)]
     pub const OPERATION_NAME: &'static str = "Gettree";
     pub const QUERY : & 'static str = "query Gettree($owner: String!, $repo: String!, $folderpath: String!){\n  repository(name:$repo,owner:$owner){\n    object(expression:$folderpath){\n      __typename\n      ... on Tree {\n        commitUrl\n        entries{\n          name\n        }\n      }\n    }\n  }\n}\n" ;
@@ -13,7 +13,7 @@ pub mod gettree {
     #[allow(dead_code)]
     type ID = String;
     #[doc = "An RFC 3986, RFC 3987, and RFC 6570 (level 4) compliant URI string.\n"]
-    type URI = super::URI;
+    type URI = String;
     #[derive(Deserialize)]
     #[doc = "Represents a Git tree entry.\n"]
     pub struct GettreeRepositoryObjectOnTreeEntries {
@@ -62,13 +62,13 @@ pub mod gettree {
     }
 }
 impl graphql_client::GraphQLQuery for Gettree {
-    type Variables = gettree::Variables;
-    type ResponseData = gettree::ResponseData;
+    type Variables = query::Variables;
+    type ResponseData = query::ResponseData;
     fn build_query(variables: Self::Variables) -> ::graphql_client::QueryBody<Self::Variables> {
         graphql_client::QueryBody {
             variables,
-            query: gettree::QUERY,
-            operation_name: gettree::OPERATION_NAME,
+            query: query::QUERY,
+            operation_name: query::OPERATION_NAME,
         }
     }
 }
