@@ -1,5 +1,5 @@
 pub struct Gettree;
-pub mod query {
+pub mod gettree {
     #![allow(dead_code)]
     pub const OPERATION_NAME: &'static str = "Gettree";
     pub const QUERY : & 'static str = "query Gettree($owner: String!, $repo: String!, $folderpath: String!){\n  repository(name:$repo,owner:$owner){\n    object(expression:$folderpath){\n      __typename\n      ... on Tree {\n        commitUrl\n        entries{\n          name\n        }\n      }\n    }\n  }\n}\n" ;
@@ -14,13 +14,13 @@ pub mod query {
     type ID = String;
     #[doc = "An RFC 3986, RFC 3987, and RFC 6570 (level 4) compliant URI string.\n"]
     type URI = String;
-    #[derive(Deserialize)]
+    #[derive(Debug, Deserialize)]
     #[doc = "Represents a Git tree entry.\n"]
     pub struct GettreeRepositoryObjectOnTreeEntries {
         #[doc = "Entry file name.\n"]
         pub name: String,
     }
-    #[derive(Deserialize)]
+    #[derive(Debug, Deserialize)]
     #[doc = "Represents a Git tree.\n"]
     pub struct GettreeRepositoryObjectOnTree {
         #[doc = "The HTTP URL for this Git object\n"]
@@ -29,20 +29,20 @@ pub mod query {
         #[doc = "A list of tree entries.\n"]
         pub entries: Option<Vec<GettreeRepositoryObjectOnTreeEntries>>,
     }
-    #[derive(Deserialize)]
+    #[derive(Debug, Deserialize)]
     #[serde(tag = "__typename")]
     pub enum GettreeRepositoryObjectOn {
         Tree(GettreeRepositoryObjectOnTree),
+        Tag,
         Blob,
         Commit,
-        Tag,
     }
-    #[derive(Deserialize)]
+    #[derive(Debug, Deserialize)]
     pub struct GettreeRepositoryObject {
         #[serde(flatten)]
         pub on: GettreeRepositoryObjectOn,
     }
-    #[derive(Deserialize)]
+    #[derive(Debug, Deserialize)]
     #[doc = "A repository contains the content for a project.\n"]
     pub struct GettreeRepository {
         #[doc = "A Git object in the repository\n"]
@@ -55,20 +55,20 @@ pub mod query {
         pub folderpath: String,
     }
     impl Variables {}
-    #[derive(Deserialize)]
+    #[derive(Debug, Deserialize)]
     pub struct ResponseData {
         #[doc = "Lookup a given repository by the owner and repository name.\n"]
         pub repository: Option<GettreeRepository>,
     }
 }
 impl graphql_client::GraphQLQuery for Gettree {
-    type Variables = query::Variables;
-    type ResponseData = query::ResponseData;
+    type Variables = gettree::Variables;
+    type ResponseData = gettree::ResponseData;
     fn build_query(variables: Self::Variables) -> ::graphql_client::QueryBody<Self::Variables> {
         graphql_client::QueryBody {
             variables,
-            query: query::QUERY,
-            operation_name: query::OPERATION_NAME,
+            query: gettree::QUERY,
+            operation_name: gettree::OPERATION_NAME,
         }
     }
 }
