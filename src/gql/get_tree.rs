@@ -1,27 +1,8 @@
-/*use cynic::QueryFragment;
+use graphql_client::GraphQLQuery;
 
-#[derive(cynic::QueryFragment)]
-#[cynic(
+#[derive(GraphQLQuery)]
+#[graphql(
     schema_path = "src/gql/github.schema.graphql",
-    query_module = "github_dsl",
-    graphql_type = "Film"
+    query_path = "src/gql/gettree.graphql",
 )]
-struct Tree {
-    commitUrl: Option<String>,
-}
-
-#[derive(cynic::QueryFragment)]
-#[cynic(
-    schema_path = "src/gql/gettree.graphql",
-    query_module = "github_dsl",
-    graphql_type = "Tree"
-)]
-struct EntriesQuery {
-    owner: String,
-    repo: String,
-    folderpath: String,
-}
-
-pub fn req_entries() {
-    let operation = cynic::Operation::query(EntriesQuery::fragment(&()));
-}*/
+pub struct TreeQuery;
