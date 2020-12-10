@@ -1,4 +1,4 @@
-use cynic::QueryFragment;
+/*use cynic::QueryFragment;
 
 #[derive(cynic::QueryFragment)]
 #[cynic(
@@ -24,4 +24,4 @@ struct EntriesQuery {
 
 pub fn req_entries() {
     let operation = cynic::Operation::query(EntriesQuery::fragment(&()));
-}
+}*/
