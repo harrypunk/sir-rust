@@ -1,0 +1,12 @@
+query Gettree($owner: String!, $repo: String!, $folderpath: String!){
+  repository(name:$repo,owner:$owner){
+    object(expression:$folderpath){
+      ... on Tree {
+        commitUrl
+        entries{
+          name
+        }
+      }
+    }
+  }
+}
