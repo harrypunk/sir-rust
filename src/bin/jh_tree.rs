@@ -1,6 +1,6 @@
 use graphql_client::{GraphQLQuery, Response};
 use reqwest::blocking::Client;
-use sir_rust::gql::gettree::gettree::{ResponseData, Variables};
+use sir_rust::gql::gettree::gettree::{GettreeRepositoryObjectOn, ResponseData, Variables};
 use sir_rust::gql::gettree::Gettree;
 use std::env;
 
@@ -29,15 +29,15 @@ pub fn main() {
     let res = req_builder.send();
     let response = res.expect("Resposne failed");
     let res_body: Response<ResponseData> = response.json().expect("text failed");
-    println!("{:?}", res_body);
-    /*let obj = data
+    let res_data: ResponseData = res_body.data.expect("data from body failed");
+    let obj = res_data
         .repository
-        .map(|x| x.object)
+        .as_ref()
+        .map(|repo| repo.object.as_ref())
         .flatten()
-        .map(|x| x.on)
-        .expect("Get properties failed");
-    match obj {
+        .expect("repo object failed");
+    match &obj.on {
         GettreeRepositoryObjectOn::Tree(x) => println!("{}", x.commit_url),
-        _ => println!("Blob commit tags"),
-    }*/
+        _ => println!("infos"),
+    }
 }
