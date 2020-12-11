@@ -1,8 +1,6 @@
 use graphql_client::{GraphQLQuery, Response};
 use reqwest::blocking::Client;
-use sir_rust::gql::gettree::gettree::{
-    GettreeRepositoryObjectOn, GettreeRepositoryObjectOnTreeEntries, ResponseData, Variables,
-};
+use sir_rust::gql::gettree::gettree::{GettreeRepositoryObjectOn, ResponseData, Variables};
 use sir_rust::gql::gettree::Gettree;
 use std::env;
 
@@ -39,13 +37,13 @@ pub fn main() {
         .flatten()
         .expect("repo object failed");
     match &obj.on {
-        GettreeRepositoryObjectOn::Tree(x) => {
-            let list: &Vec<GettreeRepositoryObjectOnTreeEntries> =
-                &x.entries.as_ref().expect("entries failed");
-            for i in list {
-                println!("{}", i.name);
-            }
-        }
+        GettreeRepositoryObjectOn::Tree(x) => x
+            .entries
+            .as_ref()
+            .iter()
+            .flat_map(|xs| xs.iter())
+            .take(2)
+            .for_each(|i| println!("{}", i.name)),
         _ => println!("infos"),
     }
 }
