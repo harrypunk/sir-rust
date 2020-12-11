@@ -11,6 +11,15 @@ pub fn main() {
         .map(|(_, v)| v)
         .next()
         .expect("no token env");
+    let filenames: Vec<String> = requeset_entries(token);
+    filenames
+        .iter()
+        .skip(20)
+        .take(10)
+        .for_each(|x| println!("{}", x))
+}
+
+fn requeset_entries(token: String) -> Vec<String> {
     let url = "https://api.github.com/graphql";
     let repo = "COVID-19";
     let owner = "CSSEGISandData";
@@ -42,8 +51,11 @@ pub fn main() {
             .as_ref()
             .iter()
             .flat_map(|xs| xs.iter())
-            .take(2)
-            .for_each(|i| println!("{}", i.name)),
-        _ => println!("infos"),
+            .map(|o| (&o.name).clone())
+            .fold(vec![], |mut acc, n| {
+                acc.push(n.to_string());
+                acc
+            }),
+        _ => vec![],
     }
 }
