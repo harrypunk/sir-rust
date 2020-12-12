@@ -1,6 +1,6 @@
 use graphql_client::{GraphQLQuery, Response};
 use reqwest::blocking::Client;
-use sir_rust::gql::gettree::gettree::{GettreeRepositoryObjectOn, ResponseData, Variables};
+use sir_rust::gql::gettree::query::{GettreeRepositoryObjectOn, ResponseData, Variables};
 use sir_rust::gql::gettree::Gettree;
 use std::env;
 
