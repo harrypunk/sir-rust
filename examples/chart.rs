@@ -13,15 +13,6 @@ use tui::{
 };
 
 const DATA: [(f64, f64); 5] = [(0.0, 0.0), (1.0, 1.0), (2.0, 2.0), (3.0, 3.0), (4.0, 4.0)];
-/*const DATA2: [(f64, f64); 7] = [
-    (0.0, 0.0),
-    (10.0, 1.0),
-    (20.0, 0.5),
-    (30.0, 1.5),
-    (40.0, 1.0),
-    (50.0, 2.5),
-    (60.0, 3.0),
-];*/
 
 fn main() -> Result<(), Box<dyn Error>> {
     // Terminal initialization
@@ -40,27 +31,16 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .direction(Direction::Vertical)
                 .constraints(
                     [
-                        Constraint::Ratio(1, 3),
-                        Constraint::Ratio(1, 3),
-                        Constraint::Ratio(1, 3),
+                        Constraint::Percentage(10),
+                        Constraint::Percentage(80),
+                        Constraint::Percentage(10),
                     ]
                     .as_ref(),
                 )
                 .split(size);
-            /*let x_labels = vec![
-                Span::styled(
-                    format!("{}", 20.0),
-                    Style::default().add_modifier(Modifier::BOLD),
-                ),
-                Span::raw(format!("{}", (20.0) / 2.0)),
-                Span::styled(
-                    format!("{}", 20.0),
-                    Style::default().add_modifier(Modifier::BOLD),
-                ),
-            ];*/
 
             let datasets = vec![Dataset::default()
-                .name("data")
+                .name("Case numbers")
                 .marker(symbols::Marker::Braille)
                 .style(Style::default().fg(Color::Yellow))
                 .graph_type(GraphType::Line)
@@ -69,7 +49,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .block(
                     Block::default()
                         .title(Span::styled(
-                            "Chart 2",
+                            "Chart 1",
                             Style::default()
                                 .fg(Color::Cyan)
                                 .add_modifier(Modifier::BOLD),
@@ -82,21 +62,17 @@ fn main() -> Result<(), Box<dyn Error>> {
                         .style(Style::default().fg(Color::Gray))
                         .bounds([0.0, 5.0])
                         .labels(vec![
-                            Span::styled("0", Style::default().add_modifier(Modifier::BOLD)),
-                            Span::raw("2.5"),
-                            Span::styled("5.0", Style::default().add_modifier(Modifier::BOLD)),
+                            Span::styled("4/1", Style::default().add_modifier(Modifier::BOLD)),
+                            Span::raw("4/2"),
+                            Span::styled("4/3", Style::default().add_modifier(Modifier::BOLD)),
                         ]),
                 )
                 .y_axis(
                     Axis::default()
                         .title("Y Axis")
                         .style(Style::default().fg(Color::Gray))
-                        .bounds([0.0, 5.0])
-                        .labels(vec![
-                            Span::styled("0", Style::default().add_modifier(Modifier::BOLD)),
-                            Span::raw("2.5"),
-                            Span::styled("5.0", Style::default().add_modifier(Modifier::BOLD)),
-                        ]),
+                        .bounds([0.0, 20.0])
+                        .labels(vec![]),
                 );
             f.render_widget(chart, chunks[1]);
         })?;
