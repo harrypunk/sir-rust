@@ -1,2 +1,2 @@
-pub mod gql;
 pub mod db;
+pub mod gql;
