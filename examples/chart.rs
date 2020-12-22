@@ -1,5 +1,6 @@
 mod util;
 use crate::util::event::{Event, Events};
+use sir_rust::algorithm::InitialValue;
 use std::{error::Error, io};
 use termion::{event::Key, input::MouseTerminal, raw::IntoRawMode, screen::AlternateScreen};
 use tui::{
@@ -12,9 +13,17 @@ use tui::{
     Terminal,
 };
 
-const DATA: [(f64, f64); 3] = [(0.0, 1.0), (10.0, 99.0), (20.0,57.0)];
+const DATA: [(f64, f64); 3] = [(0.0, 1.0), (10.0, 99.0), (20.0, 57.0)];
 
 fn main() -> Result<(), Box<dyn Error>> {
+    let init_val1 = InitialValue {
+        n: 1000,
+        s0: 999,
+        i0: 10,
+        r0: 2,
+    };
+    println!("init val1 {}", init_val1.calc());
+
     // Terminal initialization
     let stdout = io::stdout().into_raw_mode()?;
     let stdout = MouseTerminal::from(stdout);
@@ -63,7 +72,6 @@ fn main() -> Result<(), Box<dyn Error>> {
                         .bounds([0.0, 30.0])
                         .labels(vec![
                             Span::styled("4/1", Style::default().add_modifier(Modifier::BOLD)),
-                            Span::raw("4/2"),
                             Span::styled("4/3", Style::default().add_modifier(Modifier::BOLD)),
                         ]),
                 )
