@@ -29,7 +29,9 @@ fn main() -> Result<(), Box<dyn Error>> {
         },
     };
 
-    let result1: SimResult = euler.calc(30);
+    let days = 30;
+
+    let result1: SimResult = euler.calc(days);
     let arr1 = result1
         .data
         .iter()
@@ -82,7 +84,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                     Axis::default()
                         .title("X Axis")
                         .style(Style::default().fg(Color::Gray))
-                        .bounds([0.0, 30.0])
+                        .bounds([0.0, days as f64])
                         .labels(vec![
                             Span::styled("4/1", Style::default().add_modifier(Modifier::BOLD)),
                             Span::styled("4/3", Style::default().add_modifier(Modifier::BOLD)),
