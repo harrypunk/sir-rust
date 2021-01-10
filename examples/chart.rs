@@ -1,6 +1,7 @@
 mod util;
 use crate::util::event::{Event, Events};
-use sir_rust::algorithm::InitialValue;
+use sir_rust::algorithm::sir::Euler;
+use sir_rust::algorithm::{Coefficients, InitialValue, Method, SimResult};
 use std::{error::Error, io};
 use termion::{event::Key, input::MouseTerminal, raw::IntoRawMode, screen::AlternateScreen};
 use tui::{
@@ -13,8 +14,6 @@ use tui::{
     Terminal,
 };
 
-const DATA: [(f64, f64); 3] = [(0.0, 1.0), (10.0, 99.0), (20.0, 57.0)];
-
 fn main() -> Result<(), Box<dyn Error>> {
     let init_val1 = InitialValue {
         n: 1000,
@@ -22,7 +21,21 @@ fn main() -> Result<(), Box<dyn Error>> {
         i0: 10,
         r0: 2,
     };
-    println!("init val1 {}", init_val1.calc());
+    let euler = Euler {
+        init_val: init_val1,
+        rates: Coefficients {
+            infection_rate: 0.3,
+            recover_rate: 0.5,
+        },
+    };
+
+    let result1: SimResult = euler.calc(30);
+    let arr1 = result1
+        .data
+        .iter()
+        .enumerate()
+        .map(|(i, sir)| (i as f64, sir.0))
+        .collect::<Vec<(f64, f64)>>();
 
     // Terminal initialization
     let stdout = io::stdout().into_raw_mode()?;
@@ -53,7 +66,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .marker(symbols::Marker::Braille)
                 .style(Style::default().fg(Color::Yellow))
                 .graph_type(GraphType::Line)
-                .data(&DATA)];
+                .data(&arr1)];
             let chart = Chart::new(datasets)
                 .block(
                     Block::default()
@@ -79,7 +92,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                     Axis::default()
                         .title("Y Axis")
                         .style(Style::default().fg(Color::Gray))
-                        .bounds([0.0, 150.0])
+                        .bounds([0.0, 1.0])
                         .labels(vec![]),
                 );
             f.render_widget(chart, chunks[1]);

@@ -26,8 +26,8 @@ pub trait Method {
 pub mod sir {
     use super::{Coefficients, InitialValue, Method, SIRTuple, SimResult};
     pub struct Euler {
-        init_val: InitialValue,
-        rates: Coefficients,
+        pub init_val: InitialValue,
+        pub rates: Coefficients,
     }
 
     impl Euler {
