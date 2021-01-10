@@ -53,10 +53,13 @@ pub mod sir {
             let sir0: SIRTuple = (s0 / n, i0 / n, r0 / n);
 
             let mut arr = vec![sir0];
-            for i in 0..days {
-                let current = arr[i as usize];
-                let sir_next = self.get_next(&current);
-                arr.push(sir_next);
+            {
+                let mut current: SIRTuple = sir0;
+                for _ in 0..days {
+                    let sir_next = self.get_next(&current);
+                    arr.push(sir_next);
+                    current = sir_next;
+                }
             }
 
             SimResult {
