@@ -1,2 +1,2 @@
-pub mod gql;
 pub mod algorithm;
+pub mod gql;
